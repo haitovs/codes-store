@@ -2,7 +2,9 @@ import subprocess
 import re
 
 def run_nmap(target):
+    # Add "sudo" before "nmap" to scan on linux
     command = [
+        # "sudo"
         "nmap", "-PN", "-T5", "-p", "443", 
         "--min-parallelism", "100", "--min-hostgroup", "32", 
         "-n", "--max-retries", "1", "--max-rate", "400", target
