@@ -1,0 +1,7 @@
+/.venv
+/.vscode
+imgs/
+**/.vscode/
+*not finished*/
+*.pdf
+*.exe
