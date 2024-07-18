@@ -1,3 +1,4 @@
+# Choose which range of IP you need and add them into targets.txt
 23.154.64.0/24
 23.185.0.0/24
 23.235.32.0/24
