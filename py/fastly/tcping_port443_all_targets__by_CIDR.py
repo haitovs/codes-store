@@ -4,10 +4,10 @@ import re
 def run_nmap(target):
     # Add "sudo" before "nmap" to scan on linux
     command = [
-        # "sudo"
+        # "sudo" || change --min-hostgroup and --max-rate for your preferences
         "nmap", "-PN", "-T5", "-p", "443", 
-        "--min-parallelism", "100", "--min-hostgroup", "32", 
-        "-n", "--max-retries", "1", "--max-rate", "400", target
+        "--min-parallelism", "100", "--min-hostgroup", "64", 
+        "-n", "--max-retries", "1", "--max-rate", "800", target
     ]
     result = subprocess.run(command, capture_output=True, text=True)
     return result.stdout
