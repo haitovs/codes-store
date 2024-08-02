@@ -1,0 +1,57 @@
+import json
+import platform
+import subprocess
+import re
+import concurrent.futures
+
+def read_configs(file_path):
+    """Reads configuration from a JSON file."""
+    with open(file_path, 'r') as file:
+        return json.load(file)
+
+def ping_server(ip, count=4):
+    """Pings the server and returns the average delay."""
+    param = '-n' if platform.system().lower() == 'windows' else '-c'
+    command = ['ping', param, str(count), ip]
+
+    try:
+        output = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
+        
+        if platform.system().lower() == 'windows':
+            # Using regex to extract the average delay
+            match = re.search(r'Average\s*=\s*([\d.]+)ms', output)
+            if match:
+                return float(match.group(1))
+        else:
+            # Using regex to extract the average delay
+            match = re.search(r'rtt min/avg/max/mdev = [\d.]+/([\d.]+)/[\d.]+/[\d.]+ ms', output)
+            if match:
+                return float(match.group(1))
+    
+    except subprocess.CalledProcessError as e:
+        print(f"Error while pinging {ip}: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred while pinging {ip}: {e}")
+    
+    return None
+
+def measure_real_delay(ip):
+    """Measures the real delay for a given IP address."""
+    print(f"Measuring delay for server {ip}...")
+    delay = ping_server(ip)
+    if delay is not None:
+        print(f"Average delay for {ip}: {delay} ms")
+    else:
+        print(f"Failed to measure delay for {ip}.")
+
+def main(config_file):
+    """Main function to read configuration and measure delays."""
+    configs = read_configs(config_file)
+    ips = configs.get('ips', [])  # Expecting a list of IPs
+    
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.map(measure_real_delay, ips)
+
+if __name__ == "__main__":
+    config_file_path = 'configs.json'
+    main(config_file_path)
