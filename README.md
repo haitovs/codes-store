@@ -18,11 +18,12 @@ Contributions, improvements, and feedback are welcome. If you have suggestions, 
 
 - **`c++/`**: Contains useful C++ code snippets and examples.
   - *Example:* `file1.cpp` - Description of what this file does.
-  - *Example:* `file2.cpp` - Description of what this file does.
 
 - **`py/`**: Contains useful Python code snippets and examples.
   - *Example:* `file1.py` - Description of what this file does.
-  - *Example:* `file2.py` - Description of what this file does.
+  
+  - `generateNonrepeatingNumbersWith012.py` - This Python code generates all possible numbers of a given length that do not contain any repeated substrings of length 2 or more using a depth-first search approach.
+  - `showOldConnectedWifi.py` - This Python script retrieves the history of Wi-Fi networks that a device has previously connected to. It uses the netsh command-line utility to get information about the Wi-Fi profiles stored on the device.
 
 For more details on specific code snippets, please refer to the respective files within each folder.
 
