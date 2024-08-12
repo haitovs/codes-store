@@ -2,8 +2,8 @@ import re
 import ipaddress
 
 # Define the path to the input and output files
-input_file = 'raw_text.txt'
-output_file = 'raw_text_output.txt'
+input_file = 'target.txt'
+output_file = 'output.txt'
 
 def divide_subnet(subnet):
     network = ipaddress.ip_network(subnet)
