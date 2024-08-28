@@ -1,12 +1,14 @@
 import subprocess
 import re
+import argparse
 from concurrent.futures import ThreadPoolExecutor
 
-def run_nmap(target):
+# Function to run nmap based on intensity
+def run_nmap(target, intensity):
     # Add "sudo" before "nmap" if needed for scanning
     command = [
         # "sudo", 
-        "nmap", "-PN", "-T5", "-p", "443", 
+        "nmap", "-PN", intensity, "-p", "443", 
         "--min-parallelism", "100", "--min-hostgroup", "64", 
         "-n", "--max-retries", "1", "--max-rate", "800", target
     ]
@@ -30,20 +32,42 @@ def extract_open_ports(nmap_output):
     
     return open_ports_info
 
-def scan_and_extract(target):
+def scan_and_extract(target, intensity):
     target = target.strip()
     if target:
-        print(f"Running nmap for target: {target}")
-        nmap_output = run_nmap(target)
+        print(f"Running nmap for target: {target} with intensity {intensity}")
+        nmap_output = run_nmap(target, intensity)
         return extract_open_ports(nmap_output), target
     return [], target
 
 def main():
+    # Define available intensities
+    intensity_map = {
+        'T3': '-T3',  # Slowest
+        'T4': '-T4',  # Medium
+        'T5': '-T5'   # Fastest
+    }
+    
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="Nmap scanning with different intensities")
+    parser.add_argument("--T3", action="store_true", help="Use slowest scan intensity")
+    parser.add_argument("--T4", action="store_true", help="Use medium scan intensity")
+    parser.add_argument("--T5", action="store_true", help="Use fastest scan intensity")
+    args = parser.parse_args()
+
+    # Determine scan intensity
+    if args.T3:
+        intensity = intensity_map['T3']
+    elif args.T4:
+        intensity = intensity_map['T4']
+    else:
+        intensity = intensity_map['T5']  # Default to fastest if none specified
+
     with open("targets.txt", "r") as targets_file, open("results.txt", "a") as results_file:
         targets = targets_file.readlines()
         
         with ThreadPoolExecutor(max_workers=5) as executor:
-            results = executor.map(scan_and_extract, targets)
+            results = executor.map(lambda target: scan_and_extract(target, intensity), targets)
             
             for open_ports_info, target in results:
                 if open_ports_info:

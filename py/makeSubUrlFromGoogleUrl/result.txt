@@ -1,7 +1,7 @@
 gadam: https://drive.google.com/uc?export=download&id=1kmX4Pa23NchM-VJ5hHi-PIXV0cbNxU5S
 azatDwor: https://drive.google.com/uc?export=download&id=1S5jEMpDWi7ags_tJrybwH4InAUShJi_B
-arslanStarshiy: https://drive.google.com/uc?export=download&id=1r8jDKhy6AZiSaZ_9h5MJnCNs4DhR5gR9
-arslanKurs: https://drive.google.com/uc?export=download&id=1UuK998IsN__9knvfZ6kFMGfCR9EauTYf
+arslanKurs: https://drive.google.com/uc?export=download&id=1r8jDKhy6AZiSaZ_9h5MJnCNs4DhR5gR9
+arslanSTARSHIY: https://drive.google.com/uc?export=download&id=1UuK998IsN__9knvfZ6kFMGfCR9EauTYf
 mammet: https://drive.google.com/uc?export=download&id=1rSbtyxLMMQHKFi0tHz-t65kBM-aWqCLQ
 muhammet: https://drive.google.com/uc?export=download&id=1wzhiZTES3kPedi3x4pzg1BWLF7QMdfCS
 merdan: https://drive.google.com/uc?export=download&id=14PNVygAVYiFfWOu1WjdDd5ydhEtV0etV
@@ -10,3 +10,4 @@ aryf: https://drive.google.com/uc?export=download&id=1MPVTxhKMKMX8df2GcUI14_PObK
 hudikArslan: https://drive.google.com/uc?export=download&id=1EDGess6ndDyKJ0eOdjRzpZLlUDLHL0Lc
 halkberdiKl: https://drive.google.com/uc?export=download&id=16KU0U9TB9iM3zQQccpLOF2waAe551viE
 yagmyrGLOBAL: https://drive.google.com/uc?export=download&id=1Uws2kDmn8bxI7SNPMM640ZkXXAxLAJ9H
+nazikNokat: https://drive.google.com/uc?export=download&id=1kQAUVrjRn3j_j2-gNUs2ah_NUbh_wYz_
