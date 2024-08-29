@@ -1,9 +1,28 @@
-/.venv
-/.vscode
+# Ignore virtual environment
+/.venv/
+
+# Ignore Visual Studio Code settings in any directory
+.vscode/
+
+# Ignore images folder
 imgs/
-**/.vscode/
+
+# Ignore unfinished work directories (matches directories with names containing 'not finished')
 *not finished*/
+
+# Ignore all PDF files
 *.pdf
+
+# Ignore all executable files
 *.exe
+
+# Ignore all result.txt and output.txt files in any directory
 **/result.txt
 **/output.txt
+
+# Ignore MacOS system files
+.DS_Store
+
+# Ignore Python cache files and directories
+__pycache__/
+*.pyc
