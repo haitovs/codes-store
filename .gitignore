@@ -5,5 +5,5 @@ imgs/
 *not finished*/
 *.pdf
 *.exe
-/py/fastly/targets.txt
-/py/fastly/results.txt
+result.txt
+output.txt
