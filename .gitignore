@@ -5,5 +5,5 @@ imgs/
 *not finished*/
 *.pdf
 *.exe
-result.txt
-output.txt
+**/result.txt
+**/output.txt
