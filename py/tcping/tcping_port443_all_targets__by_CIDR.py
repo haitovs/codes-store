@@ -4,6 +4,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 import ipaddress
 
+
 # Function to divide subnets if necessary
 def divide_subnet(subnet):
     network = ipaddress.ip_network(subnet)
@@ -12,6 +13,7 @@ def divide_subnet(subnet):
         return subnets
     else:
         return [network]
+
 
 # Function to run nmap based on intensity
 def run_nmap(target, intensity):
@@ -39,6 +41,7 @@ def run_nmap(target, intensity):
         print(f"Error running nmap for {target}: {e}")
         return ""
 
+
 def extract_open_ports(nmap_output):
     open_ports_info = []
     combined_pattern = re.compile(r"Nmap scan report for (\S+)|(\d+/tcp)\s+open")
@@ -55,6 +58,7 @@ def extract_open_ports(nmap_output):
 
     return open_ports_info
 
+
 def scan_and_extract(target, intensity):
     target = target.strip()
     if target:
@@ -62,6 +66,7 @@ def scan_and_extract(target, intensity):
         nmap_output = run_nmap(target, intensity)
         return extract_open_ports(nmap_output), target
     return [], target
+
 
 def main():
     intensity_map = {"T3": "-T3", "T4": "-T4", "T5": "-T5"}
@@ -92,16 +97,17 @@ def main():
     with open("output.txt", "w"):
         pass
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=20) as executor:
         results = executor.map(lambda target: scan_and_extract(target, intensity), targets)
 
         with open("output.txt", "a") as results_file:
             for open_ports_info, target in results:
                 if open_ports_info:
                     results_file.write("\n".join(open_ports_info) + "\n")
-                else:
-                    results_file.write(f"Results for {target} - No open ports found.\n")
+                # else:
+                #     results_file.write(f"Results for {target} - No open ports found.\n")
                 print(f"Finished nmap for target: {target}")
+
 
 if __name__ == "__main__":
     main()
