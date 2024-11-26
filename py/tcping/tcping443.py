@@ -3,26 +3,28 @@ import re
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 import ipaddress
+import os
+import multiprocessing
 
 
 # Function to divide subnets if necessary
 def divide_subnet(subnet):
     network = ipaddress.ip_network(subnet)
-    if network.prefixlen < 20:
+    if network.prefixlen < 30:
         subnets = list(network.subnets(new_prefix=20))
         return subnets
     else:
         return [network]
 
 
-# Function to run nmap based on intensity
-def run_nmap(target, intensity):
+# Function to run Nmap based on intensity
+def run_nmap(target, ports, verbose):
     command = [
         "nmap",
         "-PN",
-        intensity,
+        "-T5",  # Fastest scan intensity
         "-p",
-        "443",
+        ports,
         "--min-parallelism",
         "100",
         "--min-hostgroup",
@@ -34,6 +36,8 @@ def run_nmap(target, intensity):
         "800",
         target,
     ]
+    if verbose:
+        print(f"Executing: {' '.join(command)}")
     try:
         result = subprocess.run(command, stdout=subprocess.PIPE, text=True, check=True)
         return result.stdout
@@ -59,28 +63,48 @@ def extract_open_ports(nmap_output):
     return open_ports_info
 
 
-def scan_and_extract(target, intensity):
+def scan_and_extract(target, ports, verbose):
     target = target.strip()
     if target:
-        print(f"Running nmap for target: {target} with intensity {intensity}")
-        nmap_output = run_nmap(target, intensity)
+        print(f"Running Nmap for target: {target}")
+        nmap_output = run_nmap(target, ports, verbose)
         return extract_open_ports(nmap_output), target
     return [], target
 
 
 def main():
-    intensity_map = {"T3": "-T3", "T4": "-T4", "T5": "-T5"}
-
-    parser = argparse.ArgumentParser(description="Nmap scanning with different intensities")
-    parser.add_argument("--T3", action="store_true", help="Use slowest scan intensity")
-    parser.add_argument("--T4", action="store_true", help="Use medium scan intensity")
-    parser.add_argument("--T5", action="store_true", help="Use fastest scan intensity")
+    parser = argparse.ArgumentParser(description="Nmap scanning with T5 intensity")
+    parser.add_argument(
+        "--input",
+        type=str,
+        default="target.txt",
+        help="Input file containing target IPs or subnets",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="output.txt",
+        help="Output file to save results",
+    )
+    parser.add_argument(
+        "--ports",
+        type=str,
+        default="443",
+        help="Comma-separated ports to scan (default: 443)",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable verbose logging for debugging",
+    )
     args = parser.parse_args()
 
-    intensity = intensity_map.get("T3" if args.T3 else "T4" if args.T4 else "T5", "-T5")
-
     # Read the content of the input file and filter IPs/subnets
-    with open("target.txt", "r") as file:
+    if not os.path.exists(args.input):
+        print(f"Input file '{args.input}' not found.")
+        return
+
+    with open(args.input, "r") as file:
         text = file.read()
 
     # Find all IP addresses with subnets
@@ -94,19 +118,22 @@ def main():
             targets.append(str(ds))
 
     # Clear the results file before starting the scan
-    with open("output.txt", "w"):
+    with open(args.output, "w"):
         pass
 
-    with ThreadPoolExecutor(max_workers=20) as executor:
-        results = executor.map(lambda target: scan_and_extract(target, intensity), targets)
+    # Use dynamic worker count based on CPU cores
+    max_workers = min(32, multiprocessing.cpu_count() * 2)
 
-        with open("output.txt", "a") as results_file:
+    print(f"Starting scans with {max_workers} threads. Results will be saved in '{args.output}'.")
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        results = executor.map(lambda target: scan_and_extract(target, args.ports, args.verbose), targets)
+
+        with open(args.output, "a") as results_file:
             for open_ports_info, target in results:
                 if open_ports_info:
                     results_file.write("\n".join(open_ports_info) + "\n")
-                # else:
-                #     results_file.write(f"Results for {target} - No open ports found.\n")
-                print(f"Finished nmap for target: {target}")
+                print(f"Finished Nmap for target: {target}")
 
 
 if __name__ == "__main__":
