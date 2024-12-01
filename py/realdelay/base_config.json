@@ -1,0 +1,41 @@
+{
+    "inbounds": [],
+    "outbounds": [
+      {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "151.101.210.133",
+              "port": 443,
+              "users": [
+                {
+                  "id": "41bd75c5-c35a-4d1d-96a1-d2ae1910f87c",
+                  "encryption": "none",
+                  "flow": ""
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "google.com",
+            "allowInsecure": true
+          },
+          "wsSettings": {
+            "path": "/?ed=2048",
+            "headers": {
+              "Host": "dom.spikeservice.top"
+            }
+          }
+        },
+        "mux": {
+          "enabled": false
+        }
+      }
+    ]
+  }
+  

@@ -77,9 +77,9 @@ def worker(ip_list, timeout, result_queue, concurrency_limit, count):
 def main():
     parser = argparse.ArgumentParser(description="Optimized ICMP Pinger")
     parser.add_argument('ip_range', help='IP range in CIDR (e.g., 192.168.1.0/24) or range (e.g., 192.168.1.1-192.168.1.254)')
-    parser.add_argument('-t', '--timeout', type=float, default=1.0, help='Timeout in seconds (default: 1.0)')
+    parser.add_argument('-t', '--timeout', type=float, default=0.5, help='Timeout in seconds (default: 1.0)')
     parser.add_argument('-o', '--output', type=str, default='results.txt', help='Output file name (default: results.txt)')
-    parser.add_argument('-c', '--concurrency', type=int, default=200, help='Concurrency limit per process (default: 200)')
+    parser.add_argument('-c', '--concurrency', type=int, default=300, help='Concurrency limit per process (default: 200)')
     parser.add_argument('-r', '--retries', type=int, default=2, help='Number of ping attempts per host (default: 2)')
     parser.add_argument('-e', '--exclude', action='append', help='IP ranges or CIDRs to exclude (can be used multiple times)')
     args = parser.parse_args()
