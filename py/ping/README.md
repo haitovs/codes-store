@@ -10,7 +10,7 @@
 2. **Execute the Script with Desired Parameters:**
 
    ```bash
-   sudo python optimized_icmp_pinger.py <IP_RANGE> [options]
+   sudo python ping.py <IP_RANGE> [options]
    ```
 
    - Replace `<IP_RANGE>` with your target IP range in CIDR or range notation.
@@ -32,31 +32,31 @@
 1. **Basic Usage:**
 
    ```bash
-   sudo python optimized_icmp_pinger.py 151.101.0.0/16
+   sudo python ping.py 151.101.0.0/16
    ```
 
 2. **Specify Output File:**
 
    ```bash
-   sudo python optimized_icmp_pinger.py 151.101.0.0/16 -o reachable_ips.txt
+   sudo python ping.py 151.101.0.0/16 -o reachable_ips.txt
    ```
 
 3. **Adjust Timeout and Concurrency:**
 
    ```bash
-   sudo python optimized_icmp_pinger.py 151.101.0.0/16 -t 0.7 -c 400 -o results.txt
+   sudo python ping.py 151.101.0.0/16 -t 0.7 -c 400 -o results.txt
    ```
 
 4. **Exclude Specific IPs and Ranges:**
 
    ```bash
-   sudo python optimized_icmp_pinger.py 151.101.0.0/16 -e 151.101.50.0/24 -e 151.101.100.0
+   sudo python ping.py 151.101.0.0/16 -e 151.101.50.0/24 -e 151.101.100.0
    ```
 
 5. **Full Command with All Options:**
 
    ```bash
-   sudo python optimized_icmp_pinger.py 151.101.0.0/16 -t 0.5 -r 2 -c 300 -e 151.101.50.0/24 -e 151.101.100.0 -o results.txt
+   sudo python ping.py 151.101.0.0/16 -t 0.5 -r 2 -c 300 -e 151.101.50.0/24 -e 151.101.100.0 -o results.txt
    ```
 
 - **Graceful Interruption:**
